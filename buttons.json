@@ -1,0 +1,43 @@
+
+{
+  "screen_id": "main_menu",
+  "resolution": {
+    "width": 320,
+    "height": 240
+  },
+  "buttons": [
+    {
+      "id": "btn_power",
+      "label": "Power",
+      "callback_id": "action_toggle_power",
+      "position": {"x": 85, "y": 20},
+      "size": {"width": 150, "height": 50},
+      "style": {
+        "background_color": "#D32F2F",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "btn_vol_up",
+      "label": "Volume +",
+      "callback_id": "action_volume_up",
+      "position": {"x": 10, "y": 100},
+      "size": {"width": 145, "height": 60},
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "btn_vol_down",
+      "label": "Volume -",
+      "callback_id": "action_volume_down",
+      "position": {"x": 165, "y": 100},
+      "size": {"width": 145, "height": 60},
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    }
+  ]
+}
