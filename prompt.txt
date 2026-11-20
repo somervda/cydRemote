@@ -1,0 +1,61 @@
+Write a micropython module for a CYD (Cheap Yellow Display) device that will read a json file with the example of the  format shown below and will draw the appropriate buttons on the display and will work with the CYD screen touch interface to return the callback_id to a routine I can use to action the button press. Use the ILI9341 library to interface with the display and the XPT2046 library to interface with the touch screen
+{
+  "screen_id": "main_menu",
+  "resolution": {
+    "width": 320,
+    "height": 240
+  },
+  "buttons": [
+    {
+      "id": "btn_power",
+      "label": "Power",
+      "callback_id": "action_toggle_power",
+      "position": {
+        "x": 20,
+        "y": 20
+      },
+      "size": {
+        "width": 80,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#D32F2F",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "btn_vol_up",
+      "label": "Volume +",
+      "callback_id": "action_volume_up",
+      "position": {
+        "x": 20,
+        "y": 80
+      },
+      "size": {
+        "width": 80,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "btn_vol_down",
+      "label": "Volume -",
+      "callback_id": "action_volume_down",
+      "position": {
+        "x": 120,
+        "y": 20
+      },
+      "size": {
+        "width": 80,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    }
+  ]
+}
