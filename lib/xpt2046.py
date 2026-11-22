@@ -101,10 +101,18 @@ class Touch(object):
             sleep(.1)  # Debounce rising edge
             self.int_locked = False  # Unlock interrupt
 
-    def normalize(self, x, y):
-        """Normalize mean X,Y values to match LCD screen."""
-        x = int(self.x_multiplier * x + self.x_add)
-        y = int(self.y_multiplier * y + self.y_add)
+    def normalize(self, raw_x, raw_y):
+        """Normalize transposed raw touch axes to LCD screen coordinates."""
+        # The touch controller's raw Y axis maps to screen X, and raw X
+        # maps to screen Y.
+        x = int((raw_y - self.y_min) * self.width /
+                (self.y_max - self.y_min))
+        y = int((raw_x - self.x_min) * self.height /
+                (self.x_max - self.x_min))
+
+        # Keep coordinates inside the display bounds.
+        x = max(0, min(self.width - 1, x))
+        y = max(0, min(self.height - 1, y))
         return x, y
 
     def raw_touch(self):

@@ -222,7 +222,7 @@ class CYDButtons:
             bx = position.get("x", 0)
             by = position.get("y", 0)
 
-            bw = size.get("width", 80)
+            bw = size.get("width", 60)
             bh = size.get("height", 40)
 
             if (

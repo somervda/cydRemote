@@ -22,7 +22,7 @@ def handle_button(callback_id):
 
 # Initialize screen and register callback
 cyd = CYDButtons(
-    "home_menu.json",
+    "channels.json",
     callback=handle_button
 )
 

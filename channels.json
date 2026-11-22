@@ -1,0 +1,196 @@
+{
+  "screen_id": "channels",
+  "resolution": {
+    "width": 320,
+    "height": 240
+  },
+  "buttons": [
+    {
+      "id": "CBS",
+      "label": "CBS",
+      "callback_id": "IR T 5,T 0,T 3",
+      "position": {
+        "x": 10,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "ABC",
+      "label": "ABC",
+      "callback_id": "IR T 5,T 0,T 6",
+      "position": {
+        "x": 90,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "NBC",
+      "label": "NBC",
+      "callback_id": "IR T 5,T 1,T 0",
+      "position": {
+        "x": 170,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "PBS",
+      "label": "PBS",
+      "callback_id": "IR T 5,T 1,T 2",
+      "position": {
+        "x": 250,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "Fox",
+      "label": "Fox",
+      "callback_id": "IR T 5,T 1,T 3",
+      "position": {
+        "x": 10,
+        "y": 70
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "ESPN",
+      "label": "ESPN",
+      "callback_id": "IR T 5,T 7,T 0",
+      "position": {
+        "x": 90,
+        "y": 70
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "Comast",
+      "label": "Comast",
+      "callback_id": "IR T 5,T 7,T 6",
+      "position": {
+        "x": 170,
+        "y": 70
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "NFL",
+      "label": "NFL",
+      "callback_id": "IR T 5,T 8,T 8",
+      "position": {
+        "x": 250,
+        "y": 70
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "CNN",
+      "label": "CNN",
+      "callback_id": "IR T 6,T 0,T 0",
+      "position": {
+        "x": 10,
+        "y": 130
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "CNBC",
+      "label": "CNBC",
+      "callback_id": "IR T 6,T 0,T 2",
+      "position": {
+        "x": 90,
+        "y": 130
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "Blmbg",
+      "label": "Blmbg",
+      "callback_id": "IR T 6,T 0,T 5",
+      "position": {
+        "x": 170,
+        "y": 130
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "style": {
+        "background_color": "#1976D2",
+        "text_color": "#FFFFFF"
+      }
+    }
+  ]
+}
