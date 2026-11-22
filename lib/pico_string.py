@@ -24,6 +24,11 @@ DEFAULT_NAME = "PicoW-String"
 SERVER_MAX_COMMAND_BYTES = 100
 DEFAULT_ATT_MTU = 23
 
+
+class BLETimeoutError(Exception):
+    """Raised when a BLE operation does not complete before its deadline."""
+
+
 _IRQ_SCAN_RESULT = 5
 _IRQ_SCAN_DONE = 6
 _IRQ_PERIPHERAL_CONNECT = 7
@@ -164,7 +169,7 @@ class PicoWStringClient:
             if self._disconnected:
                 raise OSError("BLE connection was lost during " + operation)
             if time.ticks_diff(deadline, time.ticks_ms()) <= 0:
-                raise TimeoutError("Timed out during " + operation)
+                raise BLETimeoutError("Timed out during " + operation)
             time.sleep_ms(10)
 
     def connect(self, timeout_ms=None):
@@ -240,7 +245,7 @@ class PicoWStringClient:
         try:
             exchange(self._conn_handle)
             self._wait("_mtu_done", min(timeout_ms, 2000), "MTU negotiation")
-        except (OSError, TimeoutError, TypeError):
+        except (OSError, BLETimeoutError, TypeError):
             self._mtu = DEFAULT_ATT_MTU
             self.max_payload = DEFAULT_ATT_MTU - 3
 
@@ -326,7 +331,7 @@ class PicoWStringClient:
         try:
             self._ble.gap_disconnect(conn_handle)
             self._wait("_disconnected", timeout_ms, "disconnect")
-        except (OSError, TimeoutError):
+        except (OSError, BLETimeoutError):
             # Clear local state even if the peer disappeared without an IRQ.
             pass
         self._connected = False

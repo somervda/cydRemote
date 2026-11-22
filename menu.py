@@ -1,6 +1,11 @@
 
 import time
 from cyd_buttons import CYDButtons
+from pico_string import PicoWStringClient
+
+remote = PicoWStringClient()
+remote.connect()
+
 
 
 def handle_button(callback_id):
@@ -15,7 +20,10 @@ def handle_button(callback_id):
 
     elif callback_id == "action_volume_down":
         print("Decrease volume")
-
+    elif callback_id.startswith("IR "):
+        irCommand=callback_id[3:]
+        print("Sending ",irCommand)
+        remote.send(irCommand)
     else:
         print("Unknown action:", callback_id)
 
