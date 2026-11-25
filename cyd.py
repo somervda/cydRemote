@@ -168,13 +168,36 @@ class CYD:
         foreground = color565(255, 255, 255)
 
         self.display.clear(background)
-        self.display.draw_text8x8(
-            x,
-            y,
-            text,
-            foreground,
-            background=background
-        )
+
+        max_chars = (self.width - x) // 8
+        if max_chars <= 0:
+            return
+
+        lines = []
+        for paragraph in str(text).split("\n"):
+            paragraph = paragraph.lstrip()
+
+            while len(paragraph) > max_chars and len(lines) < 20:
+                split_at = paragraph.rfind(" ", 0, max_chars)
+                if split_at > 0:
+                    lines.append(paragraph[:split_at])
+                    paragraph = paragraph[split_at + 1:].lstrip()
+                else:
+                    lines.append(paragraph[:max_chars])
+                    paragraph = paragraph[max_chars:].lstrip()
+
+            if len(lines) >= 20:
+                break
+            lines.append(paragraph)
+
+        for line_number, line in enumerate(lines[:20]):
+            self.display.draw_text8x8(
+                x,
+                y + (line_number * 12),
+                line,
+                foreground,
+                background=background
+            )
 
     # -----------------------------------------
     # Draw individual button

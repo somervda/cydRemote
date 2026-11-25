@@ -108,8 +108,8 @@
       }
     },
     {
-      "id": "Comast",
-      "label": "Comast",
+      "id": "Comcast",
+      "label": "Comcast",
       "callback_id": "IR T 5,T 7,T 6",
       "position": {
         "x": 170,
@@ -176,8 +176,8 @@
       }
     },
     {
-      "id": "Blmbg",
-      "label": "Blmbg",
+      "id": "Bbg TV",
+      "label": "Bbg TV",
       "callback_id": "IR T 6,T 0,T 5",
       "position": {
         "x": 170,

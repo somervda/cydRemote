@@ -29,7 +29,7 @@ def handle_button(callback_id):
 
 # Initialize the display and register the callback.
 cyd = CYD(callback=handle_button)
-cyd.write_line("Starting bluetooth...",0,10)
+cyd.write_line("Starting bluetooth. This may take a few seconds so take it easy. Maybe get a coffee ...",0,10)
 
 remote = PicoWStringClient()
 try:
