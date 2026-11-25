@@ -1,10 +1,9 @@
 
 import time
-from cyd_buttons import CYDButtons
+from cyd import CYD
 from pico_string import PicoWStringClient
 
-remote = PicoWStringClient()
-remote.connect()
+
 
 
 
@@ -28,11 +27,20 @@ def handle_button(callback_id):
         print("Unknown action:", callback_id)
 
 
-# Initialize screen and register callback
-cyd = CYDButtons(
-    "channels.json",
-    callback=handle_button
-)
+# Initialize the display and register the callback.
+cyd = CYD(callback=handle_button)
+cyd.write_line("Starting bluetooth...",0,10)
+
+remote = PicoWStringClient()
+try:
+    remote.connect()
+except Exception as e:
+    cyd.write_line(f"Connection Error",0,10)
+    raise
+
+# Load and display buttons immediately before polling starts.
+cyd.write_line("Loading buttons...",0,10)
+cyd.change_screen("channels.json")
 
 print("Screen:", cyd.get_screen_id())
 print("Buttons:", cyd.list_buttons())

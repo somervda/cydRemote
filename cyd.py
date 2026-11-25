@@ -7,7 +7,7 @@ from ili9341 import Display, color565
 from xpt2046 import Touch
 
 
-class CYDButtons:
+class CYD:
     """
     JSON-driven button interface for ESP32-2432S028R.
 
@@ -18,9 +18,8 @@ class CYDButtons:
     Button presses return their callback_id.
     """
 
-    def __init__(self, json_file, callback=None):
+    def __init__(self, callback=None):
 
-        self.json_file = json_file
         self.callback = callback
 
         self.buttons = []
@@ -39,7 +38,7 @@ class CYDButtons:
 
         self._init_display()
         self._init_touch()
-        self.load_screen(json_file)
+        self.draw_screen()
 
     # -----------------------------------------
     # Initialize ILI9341 display
@@ -158,6 +157,24 @@ class CYDButtons:
 
         for button in self.buttons:
             self.draw_button(button)
+
+    # -----------------------------------------
+    # Clear screen and write a line of text
+    # -----------------------------------------
+
+    def write_line(self, text, x, y):
+
+        background = color565(0, 0, 0)
+        foreground = color565(255, 255, 255)
+
+        self.display.clear(background)
+        self.display.draw_text8x8(
+            x,
+            y,
+            text,
+            foreground,
+            background=background
+        )
 
     # -----------------------------------------
     # Draw individual button
