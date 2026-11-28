@@ -49,11 +49,12 @@ class Touch(object):
         self.x_add = x_min * -self.x_multiplier
         self.y_multiplier = height / (y_max - y_min)
         self.y_add = y_min * -self.y_multiplier
+        self.touch_pending = False
+        self.int_handler = int_handler
 
         if int_pin is not None:
             self.int_pin = int_pin
             self.int_pin.init(int_pin.IN)
-            self.int_handler = int_handler
             self.int_locked = False
             int_pin.irq(trigger=int_pin.IRQ_FALLING | int_pin.IRQ_RISING,
                         handler=self.int_press)
@@ -88,18 +89,28 @@ class Touch(object):
         return None
 
     def int_press(self, pin):
-        """Send X,Y values to passed interrupt handler."""
-        if not pin.value() and not self.int_locked:
-            self.int_locked = True  # Lock Interrupt
-            buff = self.raw_touch()
+        """Record a touch for processing outside interrupt context."""
+        if not pin.value():
+            if not self.int_locked:
+                self.int_locked = True
+                self.touch_pending = True
+        elif self.int_locked:
+            self.int_locked = False
 
-            if buff is not None:
-                x, y = self.normalize(*buff)
-                self.int_handler(x, y)
-            sleep(.1)  # Debounce falling edge
-        elif pin.value() and self.int_locked:
-            sleep(.1)  # Debounce rising edge
-            self.int_locked = False  # Unlock interrupt
+    def poll(self):
+        """Return a pending touch point, reading the controller outside IRQ."""
+        if not self.touch_pending:
+            return None
+
+        self.touch_pending = False
+        buff = self.raw_touch()
+        if buff is None:
+            return None
+
+        x, y = self.normalize(*buff)
+        if self.int_handler is not None:
+            self.int_handler(x, y)
+        return x, y
 
     def normalize(self, raw_x, raw_y):
         """Normalize transposed raw touch axes to LCD screen coordinates."""

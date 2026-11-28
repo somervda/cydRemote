@@ -32,9 +32,9 @@ class CYD:
         self.debounce_ms = 250
         self.touch_active = False
         
-        self.touch_x = 0
-        self.touch_y = 0
-        self.touch_pending = False
+        self.backlight_timeout_ms = None
+        self.backlight_last_activity = time.ticks_ms()
+        self.backlight_enabled = True
 
         self._init_display()
         self._init_touch()
@@ -67,7 +67,28 @@ class CYD:
         )
 
         self.backlight = Pin(21, Pin.OUT)
-        self.backlight.value(1)
+        self.set_backlight(True)
+
+    def set_backlight(self, enabled):
+        """Turn the display backlight on or off."""
+
+        self.backlight_enabled = bool(enabled)
+        self.backlight.value(1 if self.backlight_enabled else 0)
+
+        if self.backlight_enabled:
+            self.backlight_last_activity = time.ticks_ms()
+
+    def _check_backlight_timeout(self):
+
+        if (
+            self.backlight_timeout_ms is not None
+            and self.backlight_enabled
+            and time.ticks_diff(
+                time.ticks_ms(),
+                self.backlight_last_activity
+            ) >= self.backlight_timeout_ms
+        ):
+            self.set_backlight(False)
 
     # -----------------------------------------
     # Initialize XPT2046 touchscreen
@@ -85,8 +106,6 @@ class CYD:
             miso=Pin(39)
         )
 
-        self.touch_point = None
-
         self.touch = Touch(
             self.spi_touch,
             cs=Pin(33),
@@ -96,8 +115,7 @@ class CYD:
             x_min=100,
             x_max=1900,
             y_min=100,
-            y_max=1900,
-            int_handler=self._touch_handler
+            y_max=1900
         )
 
     # -----------------------------------------
@@ -273,12 +291,6 @@ class CYD:
 
         return None
 
-    def _touch_handler(self, x, y):
-
-        self.touch_x = x
-        self.touch_y = y
-        self.touch_pending = True
-
     # -----------------------------------------
     # Poll touchscreen
     # -----------------------------------------
@@ -293,15 +305,20 @@ class CYD:
             None otherwise.
         """
 
-        # Check if a touch event is pending
-        if not self.touch_pending:
+        self._check_backlight_timeout()
+
+        if not self.touch.touch_pending:
             return None
 
-        # Retrieve and clear touch event
-        self.touch_pending = False
+        # Read touch coordinates outside the interrupt handler.
+        touch_point = self.touch.poll()
+        if touch_point is None:
+            return None
 
-        x = self.touch_x
-        y = self.touch_y
+        # A valid touch wakes the display and restarts its timeout.
+        self.set_backlight(True)
+
+        x, y = touch_point
 
         # Get current time for debounce
         now = time.ticks_ms()
@@ -338,10 +355,14 @@ class CYD:
     # Change screen
     # -----------------------------------------
 
-    def change_screen(self, filename):
+    def change_screen(self, filename, timeout=60):
 
         self.touch_active = False
         self.load_screen(filename)
+        self.backlight_timeout_ms = (
+            None if timeout is None else int(timeout * 1000)
+        )
+        self.set_backlight(True)
 
     # -----------------------------------------
     # List available buttons
